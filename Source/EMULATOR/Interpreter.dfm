@@ -9,15 +9,13 @@ object ScriptFrm: TScriptFrm
   DefaultMonitor = dmMainForm
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
-  OldCreateOrder = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object SourceEditor: TJvHLEditor
     Left = 0
     Top = 20
@@ -34,33 +32,31 @@ object ScriptFrm: TScriptFrm
       '// Main procedure that will be called in first'
       'function Main: boolean;'
       'var'
-      '   Pump: boolean;'
-      '   Cycle: integer;'
+      '  Pump: boolean;'
+      '  Cycle: integer;'
       'begin'
-      '     ScriptSpeed := 1; // 0=Full speed for the script'
+      '  // 0 = Full speed for the script'
+      '  ScriptSpeed := 1;'
       ''
-      '     while not Terminated do begin'
+      '  while not Terminated do'
+      '    begin'
+      '      // Bit number 2 Run/stop script'
+      '      while not GetBitValue(2) and not Terminated do'
+      '        begin'
       
-        '           while not GetBitValue(2) and not Terminated do begin ' +
-        '// Bit number 2 Run/stop script'
+        '          Pump := GetBitValue(0);   // Get bit number 0 => run p' +
+        'ump from SCADA'
       
-        '              Pump := GetBitValue(0);   // Get bit number 0 => r' +
-        'un pump from SCADA'
-      
-        '              SetBitValue(1, Pump);     // Set bit number 1 => p' +
-        'ump running contact'
+        '          SetBitValue(1, Pump);     // Set bit number 1 => pump ' +
+        'running contact'
       ''
-      '              Cycle := GetRegisterValue(0);'
-      '              Cycle := Cycle + 1;'
-      '              SetRegisterValue(0, Cycle);'
-      '           end;'
-      '     end;'
-      ''
-      '     result := True;'
+      '          Cycle := GetRegisterValue(0);'
+      '          Cycle := Cycle + 1;'
+      '          SetRegisterValue(0, Cycle);'
+      '        end;'
+      '    end;'
+      '  Result := True;'
       'end;'
-      ''
-      ''
-      ''
       ''
       'end.')
     GutterWidth = 30
@@ -75,8 +71,8 @@ object ScriptFrm: TScriptFrm
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Courier New'
+    Font.Height = -12
+    Font.Name = 'JetBrains Mono'
     Font.Style = []
     Colors.Comment.Style = [fsItalic]
     Colors.Comment.ForeColor = clNavy
@@ -103,27 +99,23 @@ object ScriptFrm: TScriptFrm
     Colors.Statement.BackColor = clWindow
     Colors.PlainText.ForeColor = clWindowText
     Colors.PlainText.BackColor = clWindow
+    ExplicitHeight = 261
   end
   object BottomPanel: TJvPanel
     Left = 0
     Top = 300
     Width = 462
     Height = 36
-    HotTrackFont.Charset = DEFAULT_CHARSET
-    HotTrackFont.Color = clWindowText
-    HotTrackFont.Height = -13
-    HotTrackFont.Name = 'MS Sans Serif'
-    HotTrackFont.Style = []
     Align = alBottom
     TabOrder = 1
     DesignSize = (
       462
       36)
     object CaretLabel: TLabel
-      Left = 398
+      Left = 394
       Top = 13
-      Width = 52
-      Height = 13
+      Width = 56
+      Height = 15
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
       Caption = 'CaretLabel'
@@ -135,9 +127,6 @@ object ScriptFrm: TScriptFrm
       Height = 25
       Anchors = [akBottom]
       Caption = 'Ok'
-      ModalResult = 1
-      TabOrder = 0
-      OnClick = CompileClick
       Glyph.Data = {
         DE010000424DDE01000000000000760000002800000024000000120000000100
         0400000000006801000000000000000000001000000000000000000000000000
@@ -155,13 +144,16 @@ object ScriptFrm: TScriptFrm
         3338F38F000033333333333333A223333333333333338F830000333333333333
         333A333333333333333338330000333333333333333333333333333333333333
         0000}
+      ModalResult = 1
       NumGlyphs = 2
+      TabOrder = 0
+      OnClick = CompileClick
     end
     object ScriptEnableCB: TCheckBox
       Left = 13
-      Top = 13
+      Top = 10
       Width = 124
-      Height = 14
+      Height = 16
       Caption = 'Enable'
       TabOrder = 1
     end

@@ -10,25 +10,18 @@ object ConfigFrm: TConfigFrm
   DefaultMonitor = dmMainForm
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -10
-  Font.Name = 'MS Sans Serif'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object JvPanel2: TJvPanel
     Left = 0
     Top = 245
     Width = 314
     Height = 36
-    HotTrackFont.Charset = DEFAULT_CHARSET
-    HotTrackFont.Color = clWindowText
-    HotTrackFont.Height = -13
-    HotTrackFont.Name = 'MS Sans Serif'
-    HotTrackFont.Style = []
     Align = alBottom
     TabOrder = 0
     DesignSize = (
@@ -70,27 +63,27 @@ object ConfigFrm: TConfigFrm
     Width = 314
     Height = 85
     Align = alTop
-    Caption = 'IP parameters'
+    Caption = ' IP parameters '
     TabOrder = 1
     object Label7: TLabel
       Left = 13
       Top = 20
-      Width = 19
-      Height = 13
+      Width = 22
+      Height = 15
       Caption = 'Port'
     end
     object Label1: TLabel
       Left = 178
       Top = 20
-      Width = 45
-      Height = 13
+      Width = 47
+      Height = 15
       Caption = 'Slave adr'
     end
     object IPPortEdit: TSpinEdit
       Left = 13
       Top = 40
       Width = 72
-      Height = 22
+      Height = 24
       Hint = 'Default port is 502'
       MaxValue = 65535
       MinValue = 0
@@ -103,7 +96,7 @@ object ConfigFrm: TConfigFrm
       Left = 178
       Top = 40
       Width = 72
-      Height = 22
+      Height = 24
       Hint = 'Set 255 to inhibit slave address'
       MaxValue = 255
       MinValue = 0
@@ -119,7 +112,7 @@ object ConfigFrm: TConfigFrm
     Width = 314
     Height = 78
     Align = alTop
-    Caption = 'Registers/Bits'
+    Caption = ' Registers/Bits '
     TabOrder = 2
     object Label5: TLabel
       Left = 14
@@ -141,7 +134,7 @@ object ConfigFrm: TConfigFrm
       Left = 13
       Top = 40
       Width = 72
-      Height = 22
+      Height = 24
       MaxValue = 65535
       MinValue = 0
       TabOrder = 0
@@ -151,7 +144,7 @@ object ConfigFrm: TConfigFrm
       Left = 177
       Top = 39
       Width = 72
-      Height = 22
+      Height = 24
       MaxValue = 65535
       MinValue = 0
       TabOrder = 1
@@ -164,7 +157,7 @@ object ConfigFrm: TConfigFrm
     Width = 314
     Height = 80
     Align = alTop
-    Caption = 'COM port parameters'
+    Caption = ' COM port parameters '
     TabOrder = 3
     object ComPortLabel: TLabel
       Left = 118
@@ -239,11 +232,6 @@ object ConfigFrm: TConfigFrm
         26262626262626262660888D6049262626262626848726262626262626262626
         26266D8389892626262626262626262626262626262626262626262626262626
         2626262626262626262626262626262626262626262626262626}
-      HotTrackFont.Charset = DEFAULT_CHARSET
-      HotTrackFont.Color = clWindowText
-      HotTrackFont.Height = -11
-      HotTrackFont.Name = 'Arial'
-      HotTrackFont.Style = []
       ParentFont = False
       Spacing = 4
       OnClick = COMSetupBtnClick

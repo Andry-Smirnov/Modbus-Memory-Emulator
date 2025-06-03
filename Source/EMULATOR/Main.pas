@@ -4,15 +4,17 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  Grids, ExtCtrls, StdCtrls, Buttons, ComCtrls, ToolWin, JvExComCtrls, JvToolBar, ImgList,
+  Grids, ExtCtrls, StdCtrls, Buttons, ComCtrls, ToolWin, JvExComCtrls,
+  JvToolBar, ImgList,
   JvComponentBase, JvBalloonHint, JvDialogs, IdIOHandlerSocket,
-  IdBaseComponent, IdComponent, IdTCPServer, IdModBusServer, ModBusConsts, ModbusTypes,
+  IdBaseComponent, IdComponent, IdTCPServer, IdModBusServer, ModBusConsts,
+  ModbusTypes,
   IdThread, IdGlobal, IdSchedulerOfThread,
   JvExGrids, JvStringGrid, JvAppStorage, JvAppIniStorage, JvMRUList, Menus,
   JvInterpreterFm, JvInterpreter, IdAntiFreezeBase, IdAntiFreeze, IdContext,
   JvExStdCtrls, JvMemo, JvFormPlacement, ShellApi, JvGIF, JvThreadTimer,
   AppEvnts, XPMan, JvExControls, JvLED, JvExExtCtrls, JvShape,
-  JclFileUtils;
+  JclFileUtils, System.ImageList;
 
 type
   TMainFrm = class(TForm)
@@ -33,7 +35,7 @@ type
     RegistersWordSGrid: TjvStringGrid;
     PageControlBits: TPageControl;
     BitsSheet: TTabSheet;
-    BitsSGrid: TJvStringGrid;
+    BitsSGrid: TjvStringGrid;
     SaveDlg: TSaveDialog;
     OpenDlg: TOpenDialog;
     AppIniFile: TJvAppIniFileStorage;
@@ -72,26 +74,24 @@ type
     procedure ConnectMenuClick(Sender: TObject);
     procedure SaveMenuClick(Sender: TObject);
     procedure OpenMenuClick(Sender: TObject);
-    procedure MruListEnumText(Sender: TObject; Value: String;
-      Index: Integer);
+    procedure MruListEnumText(Sender: TObject; Value: String; Index: Integer);
     procedure MRUItemClick(Sender: TObject);
     procedure RegistersWordSGridKeyPress(Sender: TObject; var Key: Char);
-    procedure RegistersWordSGridGetEditText(Sender: TObject; ACol,
-      ARow: Integer; var Value: String);
-    procedure RegistersWordSGridExitCell(Sender: TJvStringGrid; AColumn,
-      ARow: Integer; const EditText: String);
+    procedure RegistersWordSGridGetEditText(Sender: TObject;
+      ACol, ARow: Integer; var Value: String);
+    procedure RegistersWordSGridExitCell(Sender: TjvStringGrid;
+      AColumn, ARow: Integer; const EditText: String);
     procedure BitsSGridKeyPress(Sender: TObject; var Key: Char);
     procedure BitsSGridGetEditText(Sender: TObject; ACol, ARow: Integer;
       var Value: String);
-    procedure BitsSGridExitCell(Sender: TJvStringGrid; AColumn,
-      ARow: Integer; const EditText: String);
+    procedure BitsSGridExitCell(Sender: TjvStringGrid; AColumn, ARow: Integer;
+      const EditText: String);
     procedure BitsSGridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure LogoClick(Sender: TObject);
     procedure ScriptMenuClick(Sender: TObject);
-    procedure ApplicationEventsMessage(var Msg: tagMSG;
-      var Handled: Boolean);
+    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure CmdLineTimerTimer(Sender: TObject);
     procedure CloseMenuClick(Sender: TObject);
     procedure GotoRegisterMenuClick(Sender: TObject);
@@ -104,31 +104,31 @@ type
       Shift: TShiftState; X, Y: Integer);
   private
     FormName: string;
-    FormExit: boolean;
-    RxComLED_Flag: boolean;
-    TxComLED_Flag: boolean;
-    RxComLED_Cnt: integer;
-    TxComLED_Cnt: integer;
+    FormExit: Boolean;
+    RxComLED_Flag: Boolean;
+    TxComLED_Flag: Boolean;
+    RxComLED_Cnt: Integer;
+    TxComLED_Cnt: Integer;
     procedure ServerCreate;
     procedure ServerDestroy;
     procedure ClearGrid(Grid: TStringGrid);
-    procedure FillRegisters(Clear: boolean; Start: integer = 0);
+    procedure FillRegisters(Clear: Boolean; Start: Integer = 0);
     procedure PLCReadRegisters(const Sender: TIdContext;
       const RegNr, Count: Integer; var Data: TModRegisterData;
       const RequestBuffer: TModBusRequestBuffer);
     procedure PLCWriteRegisters(const Sender: TIdContext;
       const RegNr, Count: Integer; const Data: TModRegisterData;
       const RequestBuffer: TModBusRequestBuffer);
-    procedure PLCReadBits(const Sender: TIdContext;
-      const RegNr, Count: Integer; var Data: TModCoilData;
-      const RequestBuffer: TModBusRequestBuffer);
+    procedure PLCReadBits(const Sender: TIdContext; const RegNr, Count: Integer;
+      var Data: TModCoilData; const RequestBuffer: TModBusRequestBuffer);
     procedure PLCWriteBits(const Sender: TIdContext;
       const RegNr, Count: Integer; const Data: TModCoilData;
       const RequestBuffer: TModBusRequestBuffer);
     procedure PLCConnect(Sender: TIdContext);
     procedure PLCDisconnect(Sender: TIdContext);
-    procedure PLCErrorCode(const Sender: TIdContext; const FunctionCode,
-      ErrorCode: Byte; const RequestBuffer: TModBusRequestBuffer);
+    procedure PLCErrorCode(const Sender: TIdContext;
+      const FunctionCode, ErrorCode: Byte;
+      const RequestBuffer: TModBusRequestBuffer);
     procedure SetColumnTitle;
     procedure ActivateRxComLED;
     procedure ActivateTxComLED;
@@ -140,44 +140,43 @@ type
   public
     procedure SetRegisterValue(const RegNo: Integer; const Value: Word);
     function GetRegisterValue(const RegNo: Integer): Word;
-    procedure RefreshDWord(RegNo: integer = -1);
+    procedure RefreshDWord(RegNo: Integer = -1);
     procedure SetRegisterDValue(const RegNo: Integer; const Value: Longword);
     function GetRegisterDValue(const RegNo: Integer): Longword;
     function GetRegisterFValue(const RegNo: Integer): single;
     procedure SetRegisterFValue(const RegNo: Integer; const Value: single);
-    procedure FillBits(Clear: boolean; Start: integer = 0);
+    procedure FillBits(Clear: Boolean; Start: Integer = 0);
     procedure SetBitValue(const BitNo: Integer; const Value: Boolean);
     function GetBitValue(const BitNo: Integer): Boolean;
-    procedure Log(S: string; Clear: boolean = False);
+    procedure Log(S: string; Clear: Boolean = False);
     procedure ShowLog;
-    procedure RefreshTitle;    
+    procedure RefreshTitle;
   end;
 
-  TByteBuffer = array[0..65535] of Byte;
+  TByteBuffer = array [0 .. 65535] of Byte;
   PByteBuffer = ^TByteBuffer;
-  TWordBuffer = array[0..65535] of Smallint;
+  TWordBuffer = array [0 .. 65535] of Smallint;
   PWordBuffer = ^TWordBuffer;
-  TDoubleBuffer = array[0..65535] of Longint;
+  TDoubleBuffer = array [0 .. 65535] of Longint;
   PDoubleBuffer = ^TDoubleBuffer;
-  TFloatBuffer = array[0..65535] of Single;
+  TFloatBuffer = array [0 .. 65535] of single;
   PFloatBuffer = ^TFloatBuffer;
 
 const
-  RegCol          = 8;  // Number of column
-  RegCol_No       = 0;  // Column index
-  RegCol_Val      = 1;
-  RegCol_Word     = 2;
-  RegCol_DWord    = 3;
-  RegCol_Float    = 4;
-  RegCol_Hex      = 5;
-  RegCol_Bin      = 6;
-  RegCol_Info     = 7;
+  RegCol = 8; // Number of column
+  RegCol_No = 0; // Column index
+  RegCol_Val = 1;
+  RegCol_Word = 2;
+  RegCol_DWord = 3;
+  RegCol_Float = 4;
+  RegCol_Hex = 5;
+  RegCol_Bin = 6;
+  RegCol_Info = 7;
 
-  BitCol          = 3;
-  BitCol_No       = 0;
-  BitCol_Bin      = 1;
-  BitCol_Info     = 2;
-
+  BitCol = 3;
+  BitCol_No = 0;
+  BitCol_Bin = 1;
+  BitCol_Info = 2;
 
 var
   MainFrm: TMainFrm;
@@ -188,40 +187,37 @@ var
 
   NumRegisters: Integer = 1000;
   NumBits: Integer = 500;
-  TcpIpPort: integer = 502;
-  ModbusSlave: integer = 1;
-  ScriptEnabled: boolean;
-  GatewayEnabled: boolean;
+  TcpIpPort: Integer = 502;
+  ModbusSlave: Integer = 1;
+  ScriptEnabled: Boolean;
+  GatewayEnabled: Boolean;
 
-  RegistersWordCol: integer;
-  RegistersWordRow: integer;
-  BitsCol: integer;
-  BitsRow: integer;
+  RegistersWordCol: Integer;
+  RegistersWordRow: Integer;
+  BitsCol: Integer;
+  BitsRow: Integer;
 
   LogText: string;
   LogSave: string;
 
-  ServerActive: boolean = False;
-  ConnectFlag: boolean = False;
-
+  ServerActive: Boolean = False;
+  ConnectFlag: Boolean = False;
 
 implementation
 
 {$R *.dfm}
 
 uses gnugettext, MyFunctions, Config, Interpreter, Bit,
-     HtmlHlp, Common, Gateway;
-
-
-
+  HtmlHlp, Common, Gateway;
 
 //
 // Modbus Server
 //
 procedure TMainFrm.ServerCreate;
 begin
-  ModbusServer := TIdModbusServer.Create(self);
-  if Assigned(ModbusServer) then begin
+  ModbusServer := TIdModBusServer.Create(self);
+  if Assigned(ModbusServer) then
+  begin
     ModbusServer.DefaultPort := TcpIpPort;
     ModbusServer.TerminateWaitTime := 5000;
     ModbusServer.OnReadHoldingRegisters := PLCReadRegisters;
@@ -233,43 +229,45 @@ begin
     ModbusServer.OnDisconnect := PLCDisconnect;
     ModbusServer.OnError := PLCErrorCode;
     ModbusServer.OnInvalidFunction := PLCInvalidFunction;
-    ModbusServer.MaxRegister := NumRegisters+1;
-    ModbusServer.MaxCoil := NumBits+1;
+    ModbusServer.MaxRegister := NumRegisters + 1;
+    ModbusServer.MaxCoil := NumBits + 1;
     ModbusServer.UnitID := ModbusSlave;
     ModbusServer.Active := True;
   end;
 end;
 
-
 procedure TMainFrm.ServerStop;
 var
-  I: integer;
+  I: Integer;
 begin
-  if Assigned(ModbusServer) then begin
+  if Assigned(ModbusServer) then
+  begin
     ModbusServer.OnReadHoldingRegisters := nil;
     ModbusServer.OnWriteRegisters := nil;
     ModbusServer.OnReadCoils := nil;
     ModbusServer.OnWriteCoils := nil;
     ModbusServer.OnConnect := nil;
     ModbusServer.OnDisconnect := nil;
-    for I := 1 to 10 do begin // Wait a little the end of activities
+    for I := 1 to 10 do
+    begin // Wait a little the end of activities
       Sleep(100);
       Application.ProcessMessages;
     end;
   end;
 end;
 
-
 procedure TMainFrm.ServerDestroy;
 begin
-  if not Assigned(ModbusServer) then Exit;
+  if not Assigned(ModbusServer) then
+    Exit;
   try
     FreeAndNil(ModbusServer);
   except
-    on E : Exception do begin ; end;
+    on E: Exception do
+    begin;
+    end;
   end;
 end;
-
 
 //
 // Form
@@ -281,18 +279,20 @@ begin
   DefaultInstance.TranslateComponent(self);
 
   // Set grid headers titles
-  with RegistersWordSGrid do begin
+  with RegistersWordSGrid do
+  begin
     FixedFont := Font;
     ColCount := RegCol;
     HideCol(RegCol_Val); // Used for value deposit cache
-    ColWidths[RegCol_Word]  := 6 * (Font.Size) + 4;
+    ColWidths[RegCol_Word] := 6 * (Font.Size) + 4;
     ColWidths[RegCol_DWord] := 11 * (Font.Size) + 4;
     ColWidths[RegCol_Float] := 11 * (Font.Size) + 4;
-    ColWidths[RegCol_Hex]   := 5 * (Font.Size) + 4;
-    ColWidths[RegCol_Bin]   := 17 * (Font.Size) + 4;
-    ColWidths[RegCol_Info]  := 400;
+    ColWidths[RegCol_Hex] := 5 * (Font.Size) + 4;
+    ColWidths[RegCol_Bin] := 17 * (Font.Size) + 4;
+    ColWidths[RegCol_Info] := 400;
   end;
-  with BitsSGrid do begin
+  with BitsSGrid do
+  begin
     FixedFont := Font;
     ColCount := BitCol;
     ColWidths[BitCol_Info] := 400;
@@ -307,33 +307,31 @@ begin
   OpenMenu.Enabled := True;
   NewMenu.Enabled := True;
 
-  MRUList.Open;
-  MRUList.EnumItems;
+  MruList.Open;
+  MruList.EnumItems;
 
   ModuleName := ChangeFileExt(ExtractFileName(Application.ExeName), '');
-  HelpFile := ExtractFilePath(Application.ExeName)+Format('%s_%s.chm', [ModuleName, LanguageExt]);
+  HelpFile := ExtractFilePath(Application.ExeName) +
+    Format('%s_%s.chm', [ModuleName, LanguageExt]);
 
   FormName := Caption;
-  Caption := Caption + Format(' [v%s]', [VersionFixedFileInfoString(Application.ExeName, vfMajorMinor)]);
+  Caption := Caption + Format(' [v%s]',
+    [VersionFixedFileInfoString(Application.ExeName, vfMajorMinor)]);
 
   LEDPanel.AutoSize := False;
 
-  MainSplitter.Top := PageControlBits.Top-MainSplitter.Height;
+  MainSplitter.Top := PageControlBits.Top - MainSplitter.Height;
 end;
-
-
-
 
 procedure TMainFrm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if FormExit then Exit;
+  if FormExit then
+    Exit;
   FormExit := True;
   Log(_('Exiting...'));
   if ServerActive then
     ConnectMenuClick(nil);
 end;
-
-
 
 //
 // Column title
@@ -341,86 +339,84 @@ end;
 procedure TMainFrm.SetColumnTitle;
 begin
   // Set grid headers titles
-  with RegistersWordSGrid do begin
-    Cells[RegCol_No, 0]     := _('No');
-    Cells[RegCol_Val, 0]    := _('Value');
-    Cells[RegCol_Word, 0]   := _('Word');
-    Cells[RegCol_DWord, 0]  := _('DWord');
-    Cells[RegCol_Float, 0]  := _('Float');
-    Cells[RegCol_Hex, 0]    := _('Hex');
-    Cells[RegCol_Bin, 0]    := _('Binary');
-    Cells[RegCol_Info, 0]   := _('Info');
+  with RegistersWordSGrid do
+  begin
+    Cells[RegCol_No, 0] := _('No');
+    Cells[RegCol_Val, 0] := _('Value');
+    Cells[RegCol_Word, 0] := _('Word');
+    Cells[RegCol_DWord, 0] := _('DWord');
+    Cells[RegCol_Float, 0] := _('Float');
+    Cells[RegCol_Hex, 0] := _('Hex');
+    Cells[RegCol_Bin, 0] := _('Binary');
+    Cells[RegCol_Info, 0] := _('Info');
   end;
-  with BitsSGrid do begin
-    Cells[BitCol_No, 0]    := _('No');
-    Cells[BitCol_Bin, 0]   := _('Binary');
-    Cells[BitCol_Info, 0]  := _('Info');
+  with BitsSGrid do
+  begin
+    Cells[BitCol_No, 0] := _('No');
+    Cells[BitCol_Bin, 0] := _('Binary');
+    Cells[BitCol_Info, 0] := _('Info');
   end;
 end;
-
-
-
-
 
 //
 // Modbus server events
 //
 procedure TMainFrm.PLCInvalidFunction(const Sender: TIdContext;
-    const FunctionCode: TModBusFunction;
-    const RequestBuffer: TModBusRequestBuffer);
+  const FunctionCode: TModBusFunction;
+  const RequestBuffer: TModBusRequestBuffer);
 var
   Host: string;
   Thread: TIdThreadWithTask;
 begin
-    if Sender.Yarn is TIdYarnOfThread then
-    begin
-      Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-      LogText := Format(_('Invalid function code %d'), [Integer(FunctionCode)]);
-      Thread := TIdYarnOfThread(Sender.Yarn).Thread;
-      Thread.Synchronize(ShowLog);
-    end;
+  if Sender.Yarn is TIdYarnOfThread then
+  begin
+    Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
+    LogText := Format(_('Invalid function code %d'), [Integer(FunctionCode)]);
+    Thread := TIdYarnOfThread(Sender.Yarn).Thread;
+    Thread.Synchronize(ShowLog);
+  end;
 end;
-
 
 procedure TMainFrm.PLCErrorCode(const Sender: TIdContext;
-    const FunctionCode: Byte; const ErrorCode: Byte;
-    const RequestBuffer: TModBusRequestBuffer);
+  const FunctionCode: Byte; const ErrorCode: Byte;
+  const RequestBuffer: TModBusRequestBuffer);
 var
   Host: string;
   Thread: TIdThreadWithTask;
 begin
-    if Sender.Yarn is TIdYarnOfThread then
-    begin
-      Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-      LogText := Format(_('Error code %d'), [ErrorCode]);
-      Thread := TIdYarnOfThread(Sender.Yarn).Thread;
-      Thread.Synchronize(ShowLog);
-    end;
+  if Sender.Yarn is TIdYarnOfThread then
+  begin
+    Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
+    LogText := Format(_('Error code %d'), [ErrorCode]);
+    Thread := TIdYarnOfThread(Sender.Yarn).Thread;
+    Thread.Synchronize(ShowLog);
+  end;
 end;
-
-
 
 procedure TMainFrm.PLCReadRegisters(const Sender: TIdContext;
-    const RegNr, Count: Integer; var Data: TModRegisterData;
-    const RequestBuffer: TModBusRequestBuffer);
+  const RegNr, Count: Integer; var Data: TModRegisterData;
+  const RequestBuffer: TModBusRequestBuffer);
 var
-  i: Integer;
+  I: Integer;
   Host: string;
   Thread: TIdThreadWithTask;
 begin
 
   try
 
-    for i := 0 to (Count - 1) do
-      Data[i] := GetRegisterValue(RegNr + i);
+    for I := 0 to (Count - 1) do
+      Data[I] := GetRegisterValue(RegNr + I);
 
-    if not ServerActive then Sender.Connection.Disconnect;
-    if not ServerActive then Exit;
+    if not ServerActive then
+      Sender.Connection.Disconnect;
+    if not ServerActive then
+      Exit;
 
     if Sender.Yarn is TIdYarnOfThread then
     begin
       Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-      LogText := Format(_('Read registers from %s / Start %d Count %d'), [Host, RegNr-1, Count]);
+      LogText := Format(_('Read registers from %s / Start %d Count %d'),
+        [Host, RegNr - 1, Count]);
       Thread := TIdYarnOfThread(Sender.Yarn).Thread;
       Thread.Synchronize(ActivateRxComLED);
       Thread.Synchronize(ShowLog);
@@ -430,29 +426,31 @@ begin
     Exit;
   end;
 end;
-
 
 procedure TMainFrm.PLCWriteRegisters(const Sender: TIdContext;
-    const RegNr, Count: Integer; const Data: TModRegisterData;
-    const RequestBuffer: TModBusRequestBuffer) ;
+  const RegNr, Count: Integer; const Data: TModRegisterData;
+  const RequestBuffer: TModBusRequestBuffer);
 var
-  i: Integer;
+  I: Integer;
   Host: string;
   Thread: TIdThreadWithTask;
 begin
 
   try
 
-    for i := 0 to (Count - 1) do
-      SetRegisterValue(RegNr + i, Data[i]);
+    for I := 0 to (Count - 1) do
+      SetRegisterValue(RegNr + I, Data[I]);
 
-    if not ServerActive then Sender.Connection.Disconnect;
-    if not ServerActive then Exit;
+    if not ServerActive then
+      Sender.Connection.Disconnect;
+    if not ServerActive then
+      Exit;
 
     if Sender.Yarn is TIdYarnOfThread then
     begin
       Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-      LogText := Format(_('Write registers from %s / Start %d Count %d'), [Host, RegNr-1, Count]);
+      LogText := Format(_('Write registers from %s / Start %d Count %d'),
+        [Host, RegNr - 1, Count]);
       Thread := TIdYarnOfThread(Sender.Yarn).Thread;
       Thread.Synchronize(ActivateTxComLED);
       Thread.Synchronize(ShowLog);
@@ -463,30 +461,30 @@ begin
   end;
 end;
 
-
-
-
 procedure TMainFrm.PLCReadBits(const Sender: TIdContext;
-    const RegNr, Count: Integer; var Data: TModCoilData;
-    const RequestBuffer: TModBusRequestBuffer);
+  const RegNr, Count: Integer; var Data: TModCoilData;
+  const RequestBuffer: TModBusRequestBuffer);
 var
-  i: Integer;
+  I: Integer;
   Host: string;
   Thread: TIdThreadWithTask;
 begin
 
   try
 
-    for i := 0 to (Count - 1) do
-      Data[i] := ByteBool(GetBitValue(RegNr + i));
+    for I := 0 to (Count - 1) do
+      Data[I] := ByteBool(GetBitValue(RegNr + I));
 
-    if not ServerActive then Sender.Connection.Disconnect;
-    if not ServerActive then Exit;
+    if not ServerActive then
+      Sender.Connection.Disconnect;
+    if not ServerActive then
+      Exit;
 
     if Sender.Yarn is TIdYarnOfThread then
     begin
       Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-      LogText := Format(_('Read coils from %s / Start %d Count %d'), [Host, RegNr-1, Count]);
+      LogText := Format(_('Read coils from %s / Start %d Count %d'),
+        [Host, RegNr - 1, Count]);
       Thread := TIdYarnOfThread(Sender.Yarn).Thread;
       Thread.Synchronize(ActivateRxComLED);
       Thread.Synchronize(ShowLog);
@@ -497,39 +495,39 @@ begin
   end;
 end;
 
-
 procedure TMainFrm.PLCWriteBits(const Sender: TIdContext;
-    const RegNr, Count: Integer; const Data: TModCoilData;
-    const RequestBuffer: TModBusRequestBuffer);
+  const RegNr, Count: Integer; const Data: TModCoilData;
+  const RequestBuffer: TModBusRequestBuffer);
 var
-  i: Integer;
+  I: Integer;
   Host: string;
   Thread: TIdThreadWithTask;
 begin
 
   try
 
-    for i := 0 to (Count - 1) do
-      SetBitValue(RegNr + i, Boolean(Data[i]));
+    for I := 0 to (Count - 1) do
+      SetBitValue(RegNr + I, Boolean(Data[I]));
 
-    if not ServerActive then Sender.Connection.Disconnect;
-    if not ServerActive then Exit;
+    if not ServerActive then
+      Sender.Connection.Disconnect;
+    if not ServerActive then
+      Exit;
 
     if Sender.Yarn is TIdYarnOfThread then
     begin
       Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-      LogText := Format(_('Write coils from %s / Start %d Count %d'), [Host, RegNr-1, Count]);
+      LogText := Format(_('Write coils from %s / Start %d Count %d'),
+        [Host, RegNr - 1, Count]);
       Thread := TIdYarnOfThread(Sender.Yarn).Thread;
       Thread.Synchronize(ActivateTxComLED);
       Thread.Synchronize(ShowLog);
     end;
-    
+
   except
     Exit;
   end;
 end;
-
-
 
 procedure TMainFrm.PLCConnect(Sender: TIdContext);
 var
@@ -539,22 +537,23 @@ begin
 
   try
 
-    if not ServerActive then Sender.Connection.Disconnect;
-    if not ServerActive then Exit;
+    if not ServerActive then
+      Sender.Connection.Disconnect;
+    if not ServerActive then
+      Exit;
 
-//    if Sender.Yarn is TIdYarnOfThread then
-//    begin
-//      Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
-//      LogText := Format(_('Connection from %s'), [Host]);
-//      Thread := TIdYarnOfThread(Sender.Yarn).Thread;
-//      Thread.Synchronize(ShowLogForce);
-//    end;
+    // if Sender.Yarn is TIdYarnOfThread then
+    // begin
+    // Host := TIdIOHandlerSocket(Sender.Connection.IOHandler).Binding.PeerIP;
+    // LogText := Format(_('Connection from %s'), [Host]);
+    // Thread := TIdYarnOfThread(Sender.Yarn).Thread;
+    // Thread.Synchronize(ShowLogForce);
+    // end;
 
   except
     Exit;
   end;
 end;
-
 
 procedure TMainFrm.PLCDisconnect(Sender: TIdContext);
 var
@@ -563,43 +562,41 @@ begin
 
   try
 
-//  if Sender.Yarn is TIdYarnOfThread then
-//  begin
-//    LogText := _('Disconnection');
-//    Thread := TIdYarnOfThread(Sender.Yarn).Thread;
-//    Thread.Synchronize(ShowLogForce);
-//  end;
+    // if Sender.Yarn is TIdYarnOfThread then
+    // begin
+    // LogText := _('Disconnection');
+    // Thread := TIdYarnOfThread(Sender.Yarn).Thread;
+    // Thread.Synchronize(ShowLogForce);
+    // end;
 
   except
     Exit;
   end;
 end;
 
-
-
 //
 // Log
 //
 procedure TMainFrm.ShowLog;
 begin
-  if ViewRequestMenu.Checked then Log(LogText);
+  if ViewRequestMenu.Checked then
+    Log(LogText);
 end;
-
 
 procedure TMainFrm.ShowLogForce;
 begin
   Log(LogText);
 end;
 
-
-
-procedure TMainFrm.Log(S: string; Clear: boolean = False);
+procedure TMainFrm.Log(S: string; Clear: Boolean = False);
 begin
   try
     LogMemo.Lines.BeginUpdate;
-    if Clear then LogMemo.Clear;
+    if Clear then
+      LogMemo.Clear;
     LogMemo.Lines.Add(S);
-    if LogMemo.Lines.Count >= LogMemo.MaxLines then begin
+    if LogMemo.Lines.Count >= LogMemo.MaxLines then
+    begin
       LogMemo.Lines.Delete(0);
       LogMemo.Lines.Delete(0);
       LogMemo.Lines.Delete(0);
@@ -607,61 +604,58 @@ begin
       LogMemo.Lines.Delete(0);
     end;
   finally
-    SendMessage(LogMemo.Handle, WM_VSCROLL, SB_BOTTOM, 0); // Jump to the end of memo  
+    SendMessage(LogMemo.Handle, WM_VSCROLL, SB_BOTTOM, 0);
+    // Jump to the end of memo
     LogMemo.Lines.EndUpdate;
   end;
 
 end;
-
-
 
 //
 // Grid
 //
 procedure TMainFrm.ClearGrid(Grid: TStringGrid);
 var
-  i: Integer;
+  I: Integer;
 begin
-  with Grid do begin
+  with Grid do
+  begin
 
     RowCount := 2;
-    for i := 0 to (ColCount - 1) do
-      Cells[i, 1] := '';
+    for I := 0 to (ColCount - 1) do
+      Cells[I, 1] := '';
 
   end;
 end;
-
-
-
-
 
 //
 // Registers
 //
-procedure TMainFrm.FillRegisters(Clear: boolean; Start: integer = 0);
+procedure TMainFrm.FillRegisters(Clear: Boolean; Start: Integer = 0);
 var
   I: Integer;
 begin
-  if Clear then ClearGrid(RegistersWordSGrid);
-  if Start > NumRegisters then Start := NumRegisters;
+  if Clear then
+    ClearGrid(RegistersWordSGrid);
+  if Start > NumRegisters then
+    Start := NumRegisters;
 
-  with RegistersWordSGrid do begin
+  with RegistersWordSGrid do
+  begin
     RowCount := NumRegisters + 2;
     for I := Start to NumRegisters do
     begin
-      Cells[RegCol_No, I + 1] := IntToStr(i); // Register number
-      SetRegisterValue(I + 1, 0);  // Set default value
+      Cells[RegCol_No, I + 1] := IntToStr(I); // Register number
+      SetRegisterValue(I + 1, 0); // Set default value
     end;
-    HideRow(NumRegisters + 1); // This row is not showed but still exists for dword alignment
+    HideRow(NumRegisters + 1);
+    // This row is not showed but still exists for dword alignment
   end;
 end;
 
-
-
-
 procedure TMainFrm.SetRegisterValue(const RegNo: Integer; const Value: Word);
 var
-  I: integer;
+  I: Integer;
 begin
   if (RegNo <= NumRegisters) then
   begin
@@ -672,7 +666,8 @@ begin
     RegistersWordSGrid.Cells[RegCol_Val, RegNo] := IntToStr(Value);
 
     if not RegistersWordSGrid.EditorMode or
-        (RegistersWordSGrid.EditorMode and (RegNo<>RegistersWordRow)) then begin
+      (RegistersWordSGrid.EditorMode and (RegNo <> RegistersWordRow)) then
+    begin
       RegistersWordSGrid.Cells[RegCol_Word, RegNo] := IntToStr(I);
       RegistersWordSGrid.Cells[RegCol_Hex, RegNo] := IntToHex(Value, 4);
       RegistersWordSGrid.Cells[RegCol_Bin, RegNo] := IntToBinary(Value, 16);
@@ -680,7 +675,6 @@ begin
     RefreshDWord(RegNo);
   end;
 end;
-
 
 function TMainFrm.GetRegisterValue(const RegNo: Integer): Word;
 begin
@@ -690,12 +684,10 @@ begin
     Result := 0;
 end;
 
-
-
 // Refresh DWord and Float values for all the grid
-procedure TMainFrm.RefreshDWord(RegNo: integer = -1);
+procedure TMainFrm.RefreshDWord(RegNo: Integer = -1);
 var
-  I, I2, First, Last : integer;
+  I, I2, First, Last: Integer;
   W1, W2: Word;
   DWord: Longword;
   PWord: PWordBuffer;
@@ -707,23 +699,31 @@ begin
   PWord := @DWord;
   PFloat := @DWord;
 
-  with RegistersWordSGrid do begin
+  with RegistersWordSGrid do
+  begin
 
-    if RegNo = -1 then begin
-      First := 1; Last := RowCount-1;
+    if RegNo = -1 then
+    begin
+      First := 1;
+      Last := RowCount - 1;
     end
-    else begin
-      First := RegNo-1; Last := RegNo+1;
+    else
+    begin
+      First := RegNo - 1;
+      Last := RegNo + 1;
     end;
-    if First < 1 then First := 1;
-    if Last > RowCount-1 then Last := RowCount-1;
+    if First < 1 then
+      First := 1;
+    if Last > RowCount - 1 then
+      Last := RowCount - 1;
 
-
-    for I := First to Last do begin
+    for I := First to Last do
+    begin
       if not RegistersWordSGrid.EditorMode or
-        (RegistersWordSGrid.EditorMode and (I<>RegistersWordRow)) then begin
+        (RegistersWordSGrid.EditorMode and (I <> RegistersWordRow)) then
+      begin
         S1 := Cells[RegCol_Val, I];
-        S2 := Cells[RegCol_Val, I+1];
+        S2 := Cells[RegCol_Val, I + 1];
         if S1 = '' then
           W1 := 0
         else
@@ -747,8 +747,8 @@ begin
   end;
 end;
 
-
-procedure TMainFrm.SetRegisterDValue(const RegNo: Integer; const Value: Longword);
+procedure TMainFrm.SetRegisterDValue(const RegNo: Integer;
+  const Value: Longword);
 var
   PWord: PWordBuffer;
 begin
@@ -756,11 +756,10 @@ begin
 
   if (RegNo <= NumRegisters) then
   begin
-    SetRegisterValue(RegNo,   PWord[0]);
-    SetRegisterValue(RegNo+1, PWord[1]);
+    SetRegisterValue(RegNo, PWord[0]);
+    SetRegisterValue(RegNo + 1, PWord[1]);
   end;
 end;
-
 
 function TMainFrm.GetRegisterDValue(const RegNo: Integer): Longword;
 var
@@ -769,18 +768,15 @@ var
 begin
   DWord := 0;
   PWord := @DWord;
-  if (RegNo <= NumRegisters) then begin
+  if (RegNo <= NumRegisters) then
+  begin
     PWord[0] := GetRegisterValue(RegNo);
-    PWord[1] := GetRegisterValue(RegNo+1);
+    PWord[1] := GetRegisterValue(RegNo + 1);
     Result := DWord;
   end
   else
     Result := 0;
 end;
-
-
-
-
 
 procedure TMainFrm.SetRegisterFValue(const RegNo: Integer; const Value: single);
 var
@@ -790,11 +786,10 @@ begin
 
   if (RegNo <= NumRegisters) then
   begin
-    SetRegisterValue(RegNo,   PWord[0]);
-    SetRegisterValue(RegNo+1, PWord[1]);
+    SetRegisterValue(RegNo, PWord[0]);
+    SetRegisterValue(RegNo + 1, PWord[1]);
   end;
 end;
-
 
 function TMainFrm.GetRegisterFValue(const RegNo: Integer): single;
 var
@@ -803,50 +798,54 @@ var
 begin
   Float := 0;
   PWord := @Float;
-  if (RegNo <= NumRegisters) then begin
+  if (RegNo <= NumRegisters) then
+  begin
     PWord[0] := GetRegisterValue(RegNo);
-    PWord[1] := GetRegisterValue(RegNo+1);
+    PWord[1] := GetRegisterValue(RegNo + 1);
     Result := Float;
   end
   else
     Result := 0;
 end;
 
-
 //
 // Bits
 //
-procedure TMainFrm.FillBits(Clear: boolean; Start: integer = 0);
+procedure TMainFrm.FillBits(Clear: Boolean; Start: Integer = 0);
 var
-  i: Integer;
+  I: Integer;
 begin
-  if Clear then ClearGrid(BitsSGrid);
-  if Start > NumBits then Start := NumBits;
+  if Clear then
+    ClearGrid(BitsSGrid);
+  if Start > NumBits then
+    Start := NumBits;
 
-  with BitsSGrid do begin
+  with BitsSGrid do
+  begin
 
     RowCount := NumBits + 1;
-    for i := Start to NumBits do
+    for I := Start to NumBits do
     begin
-      Cells[0, i + 1] := IntToStr(i);
-      SetBitValue(i + 1, False);
+      Cells[0, I + 1] := IntToStr(I);
+      SetBitValue(I + 1, False);
     end;
 
   end;
 end;
 
-
 procedure TMainFrm.SetBitValue(const BitNo: Integer; const Value: Boolean);
 var
   S: string;
 begin
-  if (BitNo <= NumBits) then begin
-    if Value then S := '1' else S := '0';
+  if (BitNo <= NumBits) then
+  begin
+    if Value then
+      S := '1'
+    else
+      S := '0';
     BitsSGrid.Cells[BitCol_Bin, BitNo] := S;
   end;
 end;
-
-
 
 function TMainFrm.GetBitValue(const BitNo: Integer): Boolean;
 begin
@@ -855,7 +854,6 @@ begin
   else
     Result := False;
 end;
-
 
 //
 // New project
@@ -880,7 +878,6 @@ begin
   ScriptFrm.InterpreterProgram.Source := ScriptSave;
 end;
 
-
 //
 // Configuration
 //
@@ -891,14 +888,13 @@ var
 begin
   OldNumRegisters := NumRegisters;
   OldNumBits := NumBits;
-  if ConfigFrm.ShowModal = mrOk then begin
+  if ConfigFrm.ShowModal = mrOk then
+  begin
     RegistersWordSGrid.ShowRow(OldNumRegisters + 1, -1);
-    FillRegisters(False, NumRegisters+(OldNumRegisters-NumRegisters));
-    FillBits(False, NumBits+(OldNumBits-NumBits));
+    FillRegisters(False, NumRegisters + (OldNumRegisters - NumRegisters));
+    FillBits(False, NumBits + (OldNumBits - NumBits));
   end;
 end;
-
-
 
 //
 // Script editor
@@ -908,8 +904,6 @@ begin
   ScriptFrm.ShowModal;
 end;
 
-
-
 //
 // Run the emulator
 //
@@ -917,14 +911,16 @@ procedure TMainFrm.ConnectMenuClick(Sender: TObject);
 var
   ErrorMsg: string;
 begin
-  if ConnectFlag then Exit;
+  if ConnectFlag then
+    Exit;
 
   try
     ConnectFlag := True;
 
     ServerActive := ConnectMenu.Down and not FormExit;
 
-    if ServerActive then begin
+    if ServerActive then
+    begin
       // Run emulator
       try
         ServerCreate;
@@ -934,16 +930,19 @@ begin
         Log(_('Error in running server... (port already in use ?)'), True);
       end;
       // Run com port gateway
-      if GatewayEnabled then begin
+      if GatewayEnabled then
+      begin
         if GatewayStart(TcpIpPort, ErrorMsg) then
           Log(_('COM port running'))
         else
           Log(ErrorMsg, True);
       end;
     end
-    else begin
+    else
+    begin
       // Stop com port gateway
-      if GatewayEnabled then begin
+      if GatewayEnabled then
+      begin
         GatewayStop;
         Log(_('COM port stopped'));
       end;
@@ -952,7 +951,8 @@ begin
       ServerStop;
 
       if ScriptEnabled then
-        Log(_('Stopping script')); // Script is auto-stopped by ServerActive variable
+        Log(_('Stopping script'));
+      // Script is auto-stopped by ServerActive variable
       try
         ServerDestroy;
         Log(_('Emulator stopped'));
@@ -969,7 +969,8 @@ begin
     ConfigMenu.Enabled := not ServerActive;
     ScriptMenu.Enabled := not ServerActive;
     // Run script interpreter
-    if ServerActive and ScriptEnabled then begin
+    if ServerActive and ScriptEnabled then
+    begin
       Log(_('Running script'));
       ScriptFrm.RunScript;
     end
@@ -977,25 +978,26 @@ begin
 
 end;
 
-
 //
 // App title
 //
 procedure TMainFrm.RefreshTitle;
 begin
-  Caption := Format('%s - %d - %s', [ChangeFileExt(ExtractFileName(OpenDlg.FileName), ''), ModbusSlave, FormName]);
+  Caption := Format('%s - %d - %s',
+    [ChangeFileExt(ExtractFileName(OpenDlg.FileName), ''), ModbusSlave,
+    FormName]);
   Application.Title := Caption;
 end;
-
-
 
 //
 // Save/open/close project
 //
 procedure TMainFrm.SaveMenuClick(Sender: TObject);
 begin
-  if SaveDlg.Execute then begin
-    with PrjIniFile do begin        
+  if SaveDlg.Execute then
+  begin
+    with PrjIniFile do
+    begin
       FileName := ChangeFileExt(SaveDlg.FileName, efProjectFileExt);
       WriteInteger('TcpIpPort', TcpIpPort);
       WriteInteger('ModbusSlave', ModbusSlave);
@@ -1009,33 +1011,37 @@ begin
     // COM port for gateway
     GatewaySaveSettings(PrjIniFile.FileName);
 
-    RegistersWordSGrid.SaveToCSV(ChangeFileExt(SaveDlg.FileName, efRegistersFileExt));
+    RegistersWordSGrid.SaveToCSV(ChangeFileExt(SaveDlg.FileName,
+      efRegistersFileExt));
     BitsSGrid.SaveToCSV(ChangeFileExt(SaveDlg.FileName, efBitsFileExt));
 
-    with ScriptFrm do begin
-      InterpreterProgram.Pas.SaveToFile(ChangeFileExt(SaveDlg.FileName, efScriptFileExt));
+    with ScriptFrm do
+    begin
+      InterpreterProgram.Pas.SaveToFile(ChangeFileExt(SaveDlg.FileName,
+        efScriptFileExt));
     end;
   end;
   OpenDlg.FileName := SaveDlg.FileName;
   MruList.AddString(ChangeFileExt(OpenDlg.FileName, ''));
-  MRUList.EnumItems;
+  MruList.EnumItems;
   RefreshTitle;
 end;
 
-
-
 procedure TMainFrm.OpenMenuClick(Sender: TObject);
 var
-  Ok: boolean;
-  I: integer;
-  ColWidthsRSave: array[0..99] of integer;
-  ColWidthsBSave: array[0..99] of integer;
+  Ok: Boolean;
+  I: Integer;
+  ColWidthsRSave: array [0 .. 99] of Integer;
+  ColWidthsBSave: array [0 .. 99] of Integer;
   F: string;
 begin
   Ok := False;
-  if (Sender <> nil) then Ok := OpenDlg.Execute;
-  if Ok or (Sender = nil) then begin
-    with PrjIniFile do begin
+  if (Sender <> nil) then
+    Ok := OpenDlg.Execute;
+  if Ok or (Sender = nil) then
+  begin
+    with PrjIniFile do
+    begin
       FileName := ChangeFileExt(OpenDlg.FileName, efProjectFileExt);
       TcpIpPort := ReadInteger('TcpIpPort', 502);
       ModbusSlave := ReadInteger('ModbusSlave', 1);
@@ -1048,26 +1054,33 @@ begin
     // COM port for gateway
     GatewayLoadSettings(PrjIniFile.FileName);
 
-
     // Save cols widths
-    with RegistersWordSGrid do begin
-      for I := 0 to ColCount-1 do ColWidthsRSave[I] := ColWidths[I]; end;
+    with RegistersWordSGrid do
+    begin
+      for I := 0 to ColCount - 1 do
+        ColWidthsRSave[I] := ColWidths[I];
+    end;
     with BitsSGrid do
-      for I := 0 to ColCount-1 do ColWidthsBSave[I] := ColWidths[I];
+      for I := 0 to ColCount - 1 do
+        ColWidthsBSave[I] := ColWidths[I];
 
     // Load data
-    RegistersWordSGrid.LoadFromCSV(ChangeFileExt(OpenDlg.FileName, efRegistersFileExt));
+    RegistersWordSGrid.LoadFromCSV(ChangeFileExt(OpenDlg.FileName,
+      efRegistersFileExt));
     RegistersWordSGrid.RowCount := NumRegisters + 2;
     RegistersWordSGrid.HideRow(NumRegisters + 1);
     BitsSGrid.LoadFromCSV(ChangeFileExt(OpenDlg.FileName, efBitsFileExt));
 
     // Restore cols widths
     with RegistersWordSGrid do
-      for I := 0 to ColCount-1 do ColWidths[I] := ColWidthsRSave[I];
+      for I := 0 to ColCount - 1 do
+        ColWidths[I] := ColWidthsRSave[I];
     with BitsSGrid do
-      for I := 0 to ColCount-1 do ColWidths[I] := ColWidthsBSave[I];
+      for I := 0 to ColCount - 1 do
+        ColWidths[I] := ColWidthsBSave[I];
 
-    with ScriptFrm do begin
+    with ScriptFrm do
+    begin
       F := ChangeFileExt(OpenDlg.FileName, efScriptFileExt);
       if FileExists(F) then
         InterpreterProgram.Pas.LoadFromFile(F);
@@ -1095,30 +1108,25 @@ begin
   end;
 end;
 
-
-
 procedure TMainFrm.CloseMenuClick(Sender: TObject);
 begin
-    OpenMenu.Enabled := True;
-    CloseMenu.Enabled := False;
-    SaveMenu.Enabled := False;
-    NewMenu.Enabled := True;
-    ConfigMenu.Enabled := False;
-    ConnectMenu.Enabled := False;
-    ScriptMenu.Enabled := False;
-    MainPanel.Enabled := False;
+  OpenMenu.Enabled := True;
+  CloseMenu.Enabled := False;
+  SaveMenu.Enabled := False;
+  NewMenu.Enabled := True;
+  ConfigMenu.Enabled := False;
+  ConnectMenu.Enabled := False;
+  ScriptMenu.Enabled := False;
+  MainPanel.Enabled := False;
 
-    ClearGrid(RegistersWordSGrid);
-    ClearGrid(BitsSGrid);
+  ClearGrid(RegistersWordSGrid);
+  ClearGrid(BitsSGrid);
 
-    Caption := FormName;
-    Application.Title := Caption;
+  Caption := FormName;
+  Application.Title := Caption;
 
-    LogMemo.Text := LogSave;
+  LogMemo.Text := LogSave;
 end;
-
-
-
 
 //
 // MRU
@@ -1128,7 +1136,8 @@ procedure TMainFrm.MruListEnumText(Sender: TObject; Value: String;
 var
   Menu: TMenuItem;
 begin
-  if Value <> '' then begin
+  if Value <> '' then
+  begin
     Menu := TMenuItem.Create(nil);
     Menu.Caption := Value;
     Menu.OnClick := MRUItemClick;
@@ -1137,169 +1146,179 @@ begin
   end;
 end;
 
-
-
 procedure TMainFrm.MRUItemClick(Sender: TObject);
 begin
   OpenDlg.FileName := TMenuItem(Sender).Caption;
   OpenMenuClick(nil);
 end;
 
-
-
 //
 // Registers grid edit
 //
-procedure TMainFrm.RegistersWordSGridKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TMainFrm.RegistersWordSGridKeyPress(Sender: TObject; var Key: Char);
 begin
   // Backspace
-  if Key = #8 then Exit;
-  
+  if Key = #8 then
+    Exit;
+
   // Word
-  if RegistersWordCol = RegCol_Word then begin
+  if RegistersWordCol = RegCol_Word then
+  begin
     if Key = #13 then
-      SetRegisterValue(RegistersWordRow, StrToInt(RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
-    else
-      if not (Key in ['0','1','2','3','4','5','6','7','8','9', '-']) then Key := #0;
+      SetRegisterValue(RegistersWordRow,
+        StrToInt(RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
+    else if not(Key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'])
+    then
+      Key := #0;
   end;
   // Double Word
-  if RegistersWordCol = RegCol_DWord then begin
+  if RegistersWordCol = RegCol_DWord then
+  begin
     if Key = #13 then
-      SetRegisterDValue(RegistersWordRow, StrToInt(RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
-    else
-      if not (Key in ['0','1','2','3','4','5','6','7','8','9', '-']) then Key := #0;
+      SetRegisterDValue(RegistersWordRow,
+        StrToInt(RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
+    else if not(Key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'])
+    then
+      Key := #0;
   end;
   // Float
-  if RegistersWordCol = RegCol_Float then begin
+  if RegistersWordCol = RegCol_Float then
+  begin
     if Key = #13 then
-      SetRegisterFValue(RegistersWordRow, StrToFloat(RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
-    else
-      if not (Key in ['0','1','2','3','4','5','6','7','8','9', '-', DecimalSeparator]) then Key := #0;
+      SetRegisterFValue(RegistersWordRow,
+        StrToFloat(RegistersWordSGrid.Cells[RegistersWordCol,
+        RegistersWordRow]))
+    else if not(Key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-',
+      DecimalSeparator]) then
+      Key := #0;
   end;
   // Hexadecimal
-  if RegistersWordCol = RegCol_Hex then begin
+  if RegistersWordCol = RegCol_Hex then
+  begin
     if Key = #13 then
-      SetRegisterValue(RegistersWordRow, StrToInt('$'+RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
-    else
-      if not (Key in ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','a','b','c','d','e','f']) then Key := #0;
+      SetRegisterValue(RegistersWordRow,
+        StrToInt('$' + RegistersWordSGrid.Cells[RegistersWordCol,
+        RegistersWordRow]))
+    else if not(Key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
+      'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f']) then
+      Key := #0;
   end;
   // Binary
-  if RegistersWordCol = RegCol_Bin then begin
+  if RegistersWordCol = RegCol_Bin then
+  begin
     if Key = #13 then
-      SetRegisterValue(RegistersWordRow, BinaryToInt(RegistersWordSGrid.Cells[RegistersWordCol, RegistersWordRow]))
-    else
-      if not (Key in ['0','1']) then Key := #0;
+      SetRegisterValue(RegistersWordRow,
+        BinaryToInt(RegistersWordSGrid.Cells[RegistersWordCol,
+        RegistersWordRow]))
+    else if not(Key in ['0', '1']) then
+      Key := #0;
   end;
 end;
 
-
-
-procedure TMainFrm.RegistersWordSGridGetEditText(Sender: TObject; ACol,
-  ARow: Integer; var Value: String);
+procedure TMainFrm.RegistersWordSGridGetEditText(Sender: TObject;
+  ACol, ARow: Integer; var Value: String);
 begin
   RegistersWordCol := ACol;
   RegistersWordRow := ARow;
 end;
 
-
-procedure TMainFrm.RegistersWordSGridExitCell(Sender: TJvStringGrid;
+procedure TMainFrm.RegistersWordSGridExitCell(Sender: TjvStringGrid;
   AColumn, ARow: Integer; const EditText: String);
 var
-  Key: char;
+  Key: Char;
 begin
   Key := #13;
   RegistersWordSGridKeyPress(Sender, Key); // 'Enter' key simul
 end;
 
-
-
-
 procedure TMainFrm.RegistersWordSGridMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
-  Column, Row: integer;
-  Value: word;
+  Column, Row: Integer;
+  Value: Word;
 begin
-  if Button in [mbMiddle] then begin
+  if Button in [mbMiddle] then
+  begin
     RegistersWordSGrid.MouseToCell(X, Y, Column, Row);
-    if Column <> RegCol_Bin then Exit;
+    if Column <> RegCol_Bin then
+      Exit;
     Value := GetRegisterValue(Row);
     Value := EditWordBinary(Value);
     SetRegisterValue(Row, Value);
   end;
 end;
 
-
-
-
 //
 // Bits grid edit
 //
 procedure TMainFrm.BitsSGridKeyPress(Sender: TObject; var Key: Char);
 var
-  B: boolean;
+  B: Boolean;
 begin
   // Backspace
-  if Key = #8 then Exit;
+  if Key = #8 then
+    Exit;
 
   // Binary
-  if BitsCol = BitCol_Bin then begin
-    BitsSGrid.Cells[BitsCol, BitsRow] := Copy(BitsSGrid.Cells[BitsCol, BitsRow], 0, 1);  
-    if Key = #13 then begin
-      if BitsSGrid.Cells[BitsCol, BitsRow] = '1' then B := True else B := False;
+  if BitsCol = BitCol_Bin then
+  begin
+    BitsSGrid.Cells[BitsCol, BitsRow] :=
+      Copy(BitsSGrid.Cells[BitsCol, BitsRow], 0, 1);
+    if Key = #13 then
+    begin
+      if BitsSGrid.Cells[BitsCol, BitsRow] = '1' then
+        B := True
+      else
+        B := False;
       SetBitValue(BitsRow, B);
     end;
-    if not (Key in ['0','1']) then Key := #0;
+    if not(Key in ['0', '1']) then
+      Key := #0;
   end;
 end;
 
-
-procedure TMainFrm.BitsSGridGetEditText(Sender: TObject; ACol,
-  ARow: Integer; var Value: String);
+procedure TMainFrm.BitsSGridGetEditText(Sender: TObject; ACol, ARow: Integer;
+  var Value: String);
 begin
   BitsCol := ACol;
   BitsRow := ARow;
 end;
 
-procedure TMainFrm.BitsSGridExitCell(Sender: TJvStringGrid; AColumn,
-  ARow: Integer; const EditText: String);
+procedure TMainFrm.BitsSGridExitCell(Sender: TjvStringGrid;
+  AColumn, ARow: Integer; const EditText: String);
 var
-  Key: char;
+  Key: Char;
 begin
   Key := #13;
   BitsSGridKeyPress(Sender, Key); // 'Enter' key simul
 end;
 
-
-procedure TMainFrm.BitsSGridMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TMainFrm.BitsSGridMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 var
-  B: boolean;
-  Column, Row: integer;
+  B: Boolean;
+  Column, Row: Integer;
 begin
-  if Button in [mbMiddle] then begin
+  if Button in [mbMiddle] then
+  begin
     BitsSGrid.MouseToCell(X, Y, Column, Row);
-    if Column <> BitCol_Bin then Exit;
-    if BitsSGrid.Cells[Column, Row] = '1' then B := False else B := True;
+    if Column <> BitCol_Bin then
+      Exit;
+    if BitsSGrid.Cells[Column, Row] = '1' then
+      B := False
+    else
+      B := True;
     SetBitValue(Row, B);
   end;
 end;
-
-
 
 //
 // Logo
 //
 procedure TMainFrm.LogoClick(Sender: TObject);
 begin
-  ShellExecute(Handle,'OPEN','http://gunayato.free.fr',Nil,Nil,SW_SHOW);
+  ShellExecute(Handle, 'OPEN', 'http://gunayato.free.fr', Nil, Nil, SW_SHOW);
 end;
-
-
-
-
-
 
 //
 // Help
@@ -1315,9 +1334,6 @@ begin
 
 end;
 
-
-
-
 //
 // Cmd line
 //
@@ -1328,43 +1344,41 @@ begin
   ConnectMenu.Click; // Active emulator from command line
 end;
 
-
-
-
-
 //
 // Register menu
 //
 procedure TMainFrm.GotoRegisterMenuClick(Sender: TObject);
 var
   S: string;
-  I: integer;
+  I: Integer;
 begin
   S := InputBox(_('Go to register'), _('Enter register number to reach'), '');
-  if TryStrToInt(S, I) then begin
+  if TryStrToInt(S, I) then
+  begin
     Inc(I);
     if I <= RegistersWordSGrid.RowCount then
       RegistersWordSGrid.Row := I;
   end;
 end;
 
-
-
-
 procedure TMainFrm.FilterRegistersMenuClick(Sender: TObject);
 var
-  I: integer;
-  Prev, V: boolean;
-begin                  
+  I: Integer;
+  Prev, V: Boolean;
+begin
   Prev := True;
   FilterRegistersMenu.Checked := not FilterRegistersMenu.Checked;
   // Set grid headers titles
-  with RegistersWordSGrid do begin
-    for I := 1 to RowCount-1 do begin
-      V := ( (Cells[RegCol_Info, I] <> '') and FilterRegistersMenu.Checked ) or not FilterRegistersMenu.Checked;
+  with RegistersWordSGrid do
+  begin
+    for I := 1 to RowCount - 1 do
+    begin
+      V := ((Cells[RegCol_Info, I] <> '') and FilterRegistersMenu.Checked) or
+        not FilterRegistersMenu.Checked;
       if V then
         ShowRow(I, -1)
-      else begin
+      else
+      begin
         if Prev then
           ShowRow(I, 1)
         else
@@ -1374,9 +1388,6 @@ begin
     end;
   end;
 end;
-
-
-
 
 //
 // Bit menu
@@ -1384,32 +1395,35 @@ end;
 procedure TMainFrm.GotoBitMenuClick(Sender: TObject);
 var
   S: string;
-  I: integer;
+  I: Integer;
 begin
   S := InputBox(_('Go to bit'), _('Enter bit number to reach'), '');
-  if TryStrToInt(S, I) then begin
+  if TryStrToInt(S, I) then
+  begin
     Inc(I);
     if I <= BitsSGrid.RowCount then
       BitsSGrid.Row := I;
   end;
 end;
 
-
-
 procedure TMainFrm.FilterBitsMenuClick(Sender: TObject);
 var
-  I: integer;
-  Prev, V: boolean;
+  I: Integer;
+  Prev, V: Boolean;
 begin
   Prev := True;
   FilterBitsMenu.Checked := not FilterBitsMenu.Checked;
   // Set grid headers titles
-  with BitsSGrid do begin
-    for I := 1 to RowCount-1 do begin
-      V := ( (Cells[BitCol_Info, I] <> '') and FilterBitsMenu.Checked ) or not FilterBitsMenu.Checked;
+  with BitsSGrid do
+  begin
+    for I := 1 to RowCount - 1 do
+    begin
+      V := ((Cells[BitCol_Info, I] <> '') and FilterBitsMenu.Checked) or
+        not FilterBitsMenu.Checked;
       if V then
         ShowRow(I, -1)
-      else begin
+      else
+      begin
         if Prev then
           ShowRow(I, 1)
         else
@@ -1419,9 +1433,6 @@ begin
     end;
   end;
 end;
-
-
-
 
 //
 // Communication LED
@@ -1432,10 +1443,9 @@ begin
   RxComLED_Cnt := 2;
 end;
 
-
 procedure TMainFrm.RxComLEDTimerTimer(Sender: TObject);
 begin
-  RxComLED_Cnt := RxComLED_Cnt -1;
+  RxComLED_Cnt := RxComLED_Cnt - 1;
   if RxComLED_Cnt <= 0 then
   begin
     RxComLEDTimer.Enabled := False;
@@ -1447,19 +1457,15 @@ begin
   RxComLED_Off.Visible := not RxComLED.Visible;
 end;
 
-
-
-
 procedure TMainFrm.ActivateTxComLED;
 begin
   TxComLEDTimer.Enabled := True;
   TxComLED_Cnt := 2;
 end;
 
-
 procedure TMainFrm.TxComLEDTimerTimer(Sender: TObject);
 begin
-  TxComLED_Cnt := TxComLED_Cnt -1;
+  TxComLED_Cnt := TxComLED_Cnt - 1;
   if TxComLED_Cnt <= 0 then
   begin
     TxComLEDTimer.Enabled := False;
@@ -1470,7 +1476,5 @@ begin
   TxComLED.Visible := TxComLED_Flag;
   TxComLED_Off.Visible := not TxComLED.Visible;
 end;
-
-
 
 end.

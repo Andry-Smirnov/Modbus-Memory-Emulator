@@ -30,9 +30,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure COMSetupBtnClick(Sender: TObject);
   private
-    { Private declarations }
   public
-    { Public declarations }
   end;
 
 var
@@ -42,9 +40,7 @@ implementation
 
 uses gnugettext, Main, Gateway, CPortSetup;
 
-
 {$R *.dfm}
-
 
 //
 // Form
@@ -53,7 +49,6 @@ procedure TConfigFrm.FormCreate(Sender: TObject);
 begin
   DefaultInstance.TranslateComponent(self);
 end;
-
 
 procedure TConfigFrm.FormShow(Sender: TObject);
 begin
@@ -64,7 +59,6 @@ begin
   GatewayCB.Checked := GatewayEnabled;
   ComPortLabel.Caption := GatewayGetCOMStr;
 end;
-
 
 //
 // Save
@@ -78,8 +72,6 @@ begin
   GatewayEnabled := GatewayCB.Checked;
 end;
 
-
-
 //
 // Com port setup dialog
 //
@@ -87,7 +79,5 @@ procedure TConfigFrm.COMSetupBtnClick(Sender: TObject);
 begin
   GatewayCOMSetup;
 end;
-
-
 
 end.

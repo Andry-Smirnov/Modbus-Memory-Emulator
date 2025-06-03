@@ -8,14 +8,12 @@ object MainFrm: TMainFrm
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Arial'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
-  OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
-  PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 15
   object MainPanel: TPanel
     Left = 0
     Top = 25
@@ -63,7 +61,7 @@ object MainFrm: TMainFrm
           Left = 0
           Top = 0
           Width = 381
-          Height = 143
+          Height = 142
           Hint = 'Middle mouse click on binary value to edit'
           Align = alClient
           ColCount = 1
@@ -84,6 +82,7 @@ object MainFrm: TMainFrm
           FixedFont.Name = 'MS Sans Serif'
           FixedFont.Style = []
           OnExitCell = RegistersWordSGridExitCell
+          ExplicitHeight = 143
         end
       end
     end
@@ -102,7 +101,7 @@ object MainFrm: TMainFrm
           Left = 0
           Top = 0
           Width = 381
-          Height = 124
+          Height = 123
           Hint = 'Middle mouse click on binary value to edit'
           Align = alClient
           ColCount = 1
@@ -124,6 +123,7 @@ object MainFrm: TMainFrm
           FixedFont.Name = 'MS Sans Serif'
           FixedFont.Style = []
           OnExitCell = BitsSGridExitCell
+          ExplicitHeight = 124
         end
       end
     end
