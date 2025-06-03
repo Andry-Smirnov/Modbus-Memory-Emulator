@@ -30,26 +30,3 @@ __recovery
 # 64bit Delphi/C++Builder files
 *.[ao]
 
-# Lib directories
-jvcl/lib/*/*.res
-jvcl/lib/*/*.dfm
-jvcl/lib/*/debug/*.res
-jvcl/lib/*/debug/*.dfm
-jvcl/lib/*/win*/*.dfm
-jvcl/lib/*/win*/*.res
-jvcl/lib/*/win*/debug/*.res
-jvcl/lib/*/win*/debug/*.dfm
-jvcl/packages/*/dcc*.cfg
-
-# HPP output directories
-jvcl/include/*/*.hpp
-
-# tanslation files
-jvcl/locale/*/LC_MESSAGES/*.mo
-
-# JVCL files
-jvcl/bin/*
-
-# InnoSetup installer
-jvcl/install/ISS/setupbuild/*
-jvcl/install/ISS/Settings.iss
